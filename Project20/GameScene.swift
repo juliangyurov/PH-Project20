@@ -16,19 +16,29 @@ class GameScene: SKScene {
     let bottomEdge = -22
     let rightEdge = 1024 + 22
     
+    var scoreLabel = SKLabelNode()
     var score = 0 {
         didSet {
-            //your code here
+            scoreLabel.text = "Score: \(score)"
         }
     }
 
     override func didMove(to view: SKView) {
         
         let background = SKSpriteNode(imageNamed: "background")
-        background.position = CGPoint(x: 512, y: 384)
+        background.position = CGPoint(x: 512, y: 394)
         background.blendMode = .replace
         background.zPosition = -1
         addChild(background)
+        
+        scoreLabel.fontName = "Chalkduster"
+        scoreLabel.text = "Score: 0"
+        scoreLabel.position = CGPoint(x: 990, y: 720)
+        scoreLabel.horizontalAlignmentMode = .right
+        scoreLabel.color = .red
+        scoreLabel.colorBlendFactor = 1
+        scoreLabel.zPosition = 1
+        addChild(scoreLabel)
         
         gameTimer = Timer.scheduledTimer(timeInterval: 6, target: self, selector: #selector(launchFireworks), userInfo: nil, repeats: true)
         
