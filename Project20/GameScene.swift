@@ -15,6 +15,7 @@ class GameScene: SKScene {
     let leftEdge = -22
     let bottomEdge = -22
     let rightEdge = 1024 + 22
+    //var gameOver = false
     
     var scoreLabel = SKLabelNode()
     var score = 0 {
@@ -26,6 +27,7 @@ class GameScene: SKScene {
         didSet {
             if numLaunches > 100 {
                 gameTimer?.invalidate()
+                //gameOver = true
             }
         }
     }
@@ -172,6 +174,7 @@ class GameScene: SKScene {
         firework.removeFromParent()
     }
     func explodeFireworks() {
+        //if gameOver { return }
         var numExploded = 0
         
         for (index,fireworkContainer) in fireworks.enumerated().reversed() {
@@ -191,7 +194,7 @@ class GameScene: SKScene {
                 numExploded += 1
             }
         }
-        
+        print("numExploded: \(numExploded)")
         switch numExploded {
         case 0:
             break
