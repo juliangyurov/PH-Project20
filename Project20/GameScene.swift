@@ -22,6 +22,13 @@ class GameScene: SKScene {
             scoreLabel.text = "Score: \(score)"
         }
     }
+    var numLaunches = 0 {
+        didSet {
+            if numLaunches > 100 {
+                gameTimer?.invalidate()
+            }
+        }
+    }
 
     override func didMove(to view: SKView) {
         
@@ -75,6 +82,7 @@ class GameScene: SKScene {
         
         fireworks.append(node)
         addChild(node)
+        numLaunches += 1
     }
     
     @objc func launchFireworks() {
