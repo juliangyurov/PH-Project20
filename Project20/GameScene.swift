@@ -177,8 +177,17 @@ class GameScene: SKScene {
         for (index,fireworkContainer) in fireworks.enumerated().reversed() {
             guard let firework = fireworkContainer.children.first as? SKSpriteNode else { continue }
             if firework.name == "selected" {
-                explode(firework: fireworkContainer)
-                fireworks.remove(at: index)
+                
+                let boom = SKAction.run { [weak self] in
+                    self?.explode(firework: fireworkContainer)
+                }
+                let remove = SKAction.run { [weak self] in
+                    self?.fireworks.remove(at: index)
+                }
+                firework.run(SKAction.sequence([boom,remove]))
+                
+//                explode(firework: fireworkContainer)
+//                fireworks.remove(at: index)
                 numExploded += 1
             }
         }
