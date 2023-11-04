@@ -183,23 +183,23 @@ class GameScene: SKScene {
             guard let firework = fireworkContainer.children.first as? SKSpriteNode else { continue }
             if firework.name == "selected" {
                 
-// Doesn't work: remove action
-// Only boom action works from SKAction.sequence([boom,remove]
-//                let boom = SKAction.run { [weak self] in
-//                    self?.explode(firework: fireworkContainer)
-//                }
+                let boom = SKAction.run { [weak self] in
+                    self?.explode(firework: fireworkContainer)
+                }
+                let delay = SKAction.wait(forDuration: 0.1)
 //                let remove = SKAction.run { [weak self, index] in
 //                    self?.fireworks.remove(at: index)
 //                    numRemoved += 1
 //                }
-//                firework.run(SKAction.sequence([boom,remove]))
+                firework.run(SKAction.sequence([boom,delay]))
                 
-                explode(firework: fireworkContainer)
+//                explode(firework: fireworkContainer)
                 fireworks.remove(at: index)
                 numRemoved += 1
+                
                 numExploded += 1
             }
-         }
+        }
         print("End fireworks.count: \(fireworks.count)")
         print("numExploded: \(numExploded)")
         print("numRemoved: \(numRemoved)")
