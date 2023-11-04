@@ -129,9 +129,9 @@ class GameScene: SKScene {
         guard let touch = touches.first else { return }
         
         let location = touch.location(in: self)
-        let nodesAtPOint = nodes(at: location)
+        let nodesAtPoint = nodes(at: location)
         
-        for case let node as SKSpriteNode in nodesAtPOint {
+        for case let node as SKSpriteNode in nodesAtPoint {
             guard node.name == "firework" else { continue }
             
             for parent in fireworks {
@@ -173,28 +173,37 @@ class GameScene: SKScene {
         }
         firework.removeFromParent()
     }
+
     func explodeFireworks() {
         //if gameOver { return }
         var numExploded = 0
-        
+        var numRemoved = 0
+        print("Start fireworks.count: \(fireworks.count)")
         for (index,fireworkContainer) in fireworks.enumerated().reversed() {
             guard let firework = fireworkContainer.children.first as? SKSpriteNode else { continue }
             if firework.name == "selected" {
                 
-                let boom = SKAction.run { [weak self] in
-                    self?.explode(firework: fireworkContainer)
-                }
-                let remove = SKAction.run { [weak self] in
-                    self?.fireworks.remove(at: index)
-                }
-                firework.run(SKAction.sequence([boom,remove]))
+// Doesn't work: remove action
+// Only boom action works from SKAction.sequence([boom,remove]
+//                let boom = SKAction.run { [weak self] in
+//                    self?.explode(firework: fireworkContainer)
+//                }
+//                let remove = SKAction.run { [weak self, index] in
+//                    self?.fireworks.remove(at: index)
+//                    numRemoved += 1
+//                }
+//                firework.run(SKAction.sequence([boom,remove]))
                 
-//                explode(firework: fireworkContainer)
-//                fireworks.remove(at: index)
+                explode(firework: fireworkContainer)
+                fireworks.remove(at: index)
+                numRemoved += 1
                 numExploded += 1
             }
-        }
+         }
+        print("End fireworks.count: \(fireworks.count)")
         print("numExploded: \(numExploded)")
+        print("numRemoved: \(numRemoved)")
+        
         switch numExploded {
         case 0:
             break
